@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book (title, author, pages, read) {
   this.id = crypto.randomUUID();
@@ -8,6 +8,9 @@ function Book (title, author, pages, read) {
   this.read = read;
 }
 
+Book.prototype.toggleRead = function() {
+  this.read = !this.read;
+};
 function addBookToLibrary(title, author, pages, read) {
 const newBook = new Book(title, author, pages, read)
 myLibrary.push(newBook);
@@ -39,9 +42,19 @@ bookcard.appendChild(read);
 const removeBtn = document.createElement("button");
 removeBtn.textContent = "Remove"
 
+const toggleBtn = document.createElement("button");
+toggleBtn.textContent = "Toggle Read Status";
+
+toggleBtn.addEventListener("click", function() {
+  book.toggleRead();
+  renderLibrary();
+});
+
+bookcard.appendChild(toggleBtn);
+
 removeBtn.addEventListener("click", function() {
-   const idToDelete = book.id;
-  myLibrary = myLibrary.filter(book => book.id !== idToDelete)
+  const idToDelete = book.id;
+  myLibrary = myLibrary.filter(book => book.id !== idToDelete);
   renderLibrary();
 })
 bookcard.appendChild(removeBtn) 
@@ -68,12 +81,9 @@ form.reset();
 renderLibrary()
 });
 
-
-
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 310, true);
 addBookToLibrary("1984", "George Orwell", 328, false);
 renderLibrary();
-
 
 
 /*
